@@ -1,18 +1,19 @@
-import random
 import subprocess
 import time
+import random
 
-#ID dos processos
-processo_ids=[1,2,3]
+# IDs dos processos
+process_ids = [1, 2, 3]
 
-random.shuffle(processo_ids)
+# Embaralha a ordem dos processos
+random.shuffle(process_ids)
 
 # Inicia o coordenador
 subprocess.Popen(['python', 'coordenador.py'])
 
 time.sleep(2)  # Aguarda o coordenador iniciar
 
-# Inicia os processos
-for i in range(1, 4):
-    subprocess.Popen(['python', 'processo.py', str(processo_ids), '5', '1'])
+# Inicia os processos em ordem aleatória
+for process_id in process_ids:
+    subprocess.Popen(['python', 'processo.py', str(process_id), '5', '1'])
     time.sleep(1)  # Aguarda um segundo entre as execuções dos processos

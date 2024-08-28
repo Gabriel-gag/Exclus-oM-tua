@@ -1,5 +1,5 @@
-import socket 
-import time  
+import socket  # Biblioteca para comunicação via sockets
+import time  # Biblioteca para operações relacionadas ao tempo
 
 # Tamanho da mensagem fixa em bytes
 F = 10

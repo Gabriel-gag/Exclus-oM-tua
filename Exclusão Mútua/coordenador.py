@@ -1,91 +1,124 @@
-import socket 
-import threading  
-import queue  
-import time  
+import socket
+import threading
+import queue
+import time
+from datetime import datetime
 
-# Tamanho da mensagem fixa em bytes
-F = 10
+# Configurações do coordenador
+HOST = '127.0.0.1'  # Endereço IP do coordenador
+PORT = 5000         # Porta do coordenador
 
-# Fila para armazenar os pedidos de acesso à região crítica
+# Fila de pedidos para a região crítica
 request_queue = queue.Queue()
 
-# Dicionário para armazenar a contagem de acessos de cada processo
+# Contador de acessos por processo
 access_count = {}
 
-#Lock para proteger acesso ao log
-log_lock=threading.Lock()
+# Lock para garantir acesso sincronizado à fila e contador
+lock = threading.Lock()
 
-# Função que lida com as requisições de cada processo
-def handle_request(client_socket, client_address):
+# Arquivo de log
+log_file = open('coordinator_log.txt', 'a')
+
+def log_message(message):
+    """Função para registrar mensagens no log com timestamp."""
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+    log_file.write(f"[{timestamp}] {message}\n")
+    log_file.flush()
+
+def handle_client(client_socket, process_id):
+    """Função que lida com o algoritmo de exclusão mútua para cada processo."""
+    global access_count
+
     while True:
         try:
-            message = client_socket.recv(F).decode('utf-8').strip()
-            
+            message = client_socket.recv(1024).decode()
             if not message:
                 break
-            
-            if message.startswith("REQUEST"):
-                process_id = message.split("|")[1].strip()
-                with log_lock:
-                    request_queue.put(process_id)
-                print(f"Received REQUEST from process {process_id}")
-                
-                # Concede acesso enviando GRANT
-                client_socket.send(f"GRANT|{process_id}".ljust(F).encode('utf-8'))
-                
-                with log_lock:
-                    access_count[process_id] = access_count.get(process_id, 0) + 1
 
-            elif message.startswith("RELEASE"):
-                process_id = message.split("|")[1].strip()
-                with log_lock:
+            if "REQUEST" in message:
+                log_message(f"Recebido REQUEST do processo {process_id}")
+                with lock:
+                    request_queue.put(process_id)
+                
+                # Processa o pedido se for o próximo na fila
+                with lock:
+                    if request_queue.queue[0] == process_id:
+                        grant_message = "GRANT"
+                        client_socket.send(grant_message.encode())
+                        log_message(f"Enviado GRANT ao processo {process_id}")
+                        
+                        # Registra o acesso
+                        access_count[process_id] = access_count.get(process_id, 0) + 1
+
+            elif "RELEASE" in message:
+                log_message(f"Recebido RELEASE do processo {process_id}")
+                with lock:
+                    request_queue.get()
+                
+                # Se houver outros pedidos na fila, concede acesso ao próximo
+                with lock:
                     if not request_queue.empty():
-                        request_queue.get()
-                print(f"Received RELEASE from process {process_id}")
-        
-        except socket.error:
+                        next_process = request_queue.queue[0]
+                        next_socket = process_sockets[next_process]
+                        next_socket.send("GRANT".encode())
+                        log_message(f"Enviado GRANT ao processo {next_process}")
+
+        except ConnectionResetError:
+            print(f"Processo {process_id} desconectado.")
             break
 
     client_socket.close()
 
-# Função para lidar com os comandos do terminal (interface do coordenador)
-def interface_thread():
+def accept_connections(server_socket):
+    """Função para aceitar conexões dos processos."""
     while True:
-        command = input("Enter command (1: print queue, 2: print access count, 3: exit): ")
-        
-        if command == "1":
-            with log_lock:
-                print(f"Queue: {list(request_queue.queue)}")
-        
-        elif command == "2":
-            with log_lock:
-                print(f"Access Count: {access_count}")
-        
-        elif command == "3":
-            print("Shutting down coordinator.")
-            exit(0)  # Encerrar o coordenador e todos os processos
+        client_socket, _ = server_socket.accept()
+        process_id = len(process_sockets) + 1  # Atribui um ID único para cada processo
+        process_sockets[process_id] = client_socket
+        print(f"Processo {process_id} conectado.")
+        log_message(f"Processo {process_id} conectado.")
+        threading.Thread(target=handle_client, args=(client_socket, process_id)).start()
 
-# Função principal que inicia o servidor (coordenador)
-def main():
-    # Cria um socket para comunicação via TCP
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    
-    # Associa o socket a um endereço IP e porta
-    server_socket.bind(('localhost', 5000))
-    
-    # Configura o socket para escutar conexões (até 5 simultâneas)
-    server_socket.listen(5)
-
-    # Inicia a thread para a interface do terminal
-    threading.Thread(target=interface_thread).start()
-
-    # Loop principal para aceitar conexões de novos processos
+def interface():
+    """Função que lida com os comandos da interface."""
     while True:
-        # Aceita uma nova conexão
-        client_socket, client_address = server_socket.accept()
+        command = input("Comando (1: Imprimir fila, 2: Imprimir acessos, 3: Encerrar): ")
+
+        if command == '1':
+            with lock:
+                print(f"Fila de pedidos atual: {list(request_queue.queue)}")
         
-        # Inicia uma nova thread para lidar com o processo conectado
-        threading.Thread(target=handle_request, args=(client_socket, client_address)).start()
+        elif command == '2':
+            with lock:
+                for pid, count in access_count.items():
+                    print(f"Processo {pid} foi atendido {count} vezes.")
+
+        elif command == '3':
+            print("Encerrando o coordenador.")
+            log_message("Coordenador encerrado.")
+            break
 
 if __name__ == "__main__":
-    main()  # Executa o coordenador
+    # Cria o socket do coordenador
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind((HOST, PORT))
+    server_socket.listen(5)
+    print(f"Coordenador escutando em {HOST}:{PORT}")
+    log_message(f"Coordenador iniciado em {HOST}:{PORT}")
+
+    process_sockets = {}
+
+    # Inicia a thread para aceitar conexões dos processos
+    threading.Thread(target=accept_connections, args=(server_socket,)).start()
+
+    # Inicia a thread da interface
+    interface_thread = threading.Thread(target=interface)
+    interface_thread.start()
+
+    # Espera a interface finalizar
+    interface_thread.join()
+
+    # Fecha o socket do coordenador e o arquivo de log
+    server_socket.close()
+    log_file.close()
