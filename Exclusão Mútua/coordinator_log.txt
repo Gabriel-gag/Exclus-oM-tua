@@ -1,98 +1,52 @@
-[2024-08-28 13:22:38.407] Coordenador iniciado em 127.0.0.1:5000
-[2024-08-28 13:22:40.429] Processo 1 conectado.
-[2024-08-28 13:22:40.429] Recebido REQUEST do processo 1
-[2024-08-28 13:22:40.429] Enviado GRANT ao processo 1
-[2024-08-28 13:22:41.433] Recebido RELEASE do processo 1
-[2024-08-28 13:22:41.433] Recebido REQUEST do processo 1
-[2024-08-28 13:22:41.433] Enviado GRANT ao processo 1
-[2024-08-28 13:22:41.447] Processo 2 conectado.
-[2024-08-28 13:22:41.449] Recebido REQUEST do processo 2
-[2024-08-28 13:22:42.439] Recebido RELEASE do processo 1
-[2024-08-28 13:22:42.439] Enviado GRANT ao processo 2
-[2024-08-28 13:22:42.442] Recebido REQUEST do processo 1
-[2024-08-28 13:22:42.464] Processo 3 conectado.
-[2024-08-28 13:22:42.465] Recebido REQUEST do processo 3
-[2024-08-28 13:22:43.442] Recebido RELEASE do processo 2
-[2024-08-28 13:22:43.442] Enviado GRANT ao processo 1
-[2024-08-28 13:22:43.442] Recebido REQUEST do processo 2
-[2024-08-28 13:22:44.453] Recebido RELEASE do processo 1
-[2024-08-28 13:22:44.454] Enviado GRANT ao processo 3
-[2024-08-28 13:22:44.454] Recebido REQUEST do processo 1
-[2024-08-28 13:22:45.462] Recebido RELEASE do processo 3
-[2024-08-28 13:22:45.462] Enviado GRANT ao processo 2
-[2024-08-28 13:22:45.463] Recebido REQUEST do processo 3
-[2024-08-28 13:22:46.473] Recebido RELEASE do processo 2
-[2024-08-28 13:22:46.474] Enviado GRANT ao processo 1
-[2024-08-28 13:22:46.474] Recebido REQUEST do processo 2
-[2024-08-28 13:22:47.488] Recebido RELEASE do processo 1
-[2024-08-28 13:22:47.488] Enviado GRANT ao processo 3
-[2024-08-28 13:22:47.488] Recebido REQUEST do processo 1
-[2024-08-28 13:22:48.494] Recebido RELEASE do processo 3
-[2024-08-28 13:22:48.494] Enviado GRANT ao processo 2
-[2024-08-28 13:22:48.495] Recebido REQUEST do processo 3
-[2024-08-28 13:22:49.507] Recebido RELEASE do processo 2
-[2024-08-28 13:22:49.507] Enviado GRANT ao processo 1
-[2024-08-28 13:22:49.507] Recebido REQUEST do processo 2
-[2024-08-28 13:22:50.519] Recebido RELEASE do processo 1
-[2024-08-28 13:22:50.519] Enviado GRANT ao processo 3
-[2024-08-28 13:22:51.529] Recebido RELEASE do processo 3
-[2024-08-28 13:22:51.529] Enviado GRANT ao processo 2
-[2024-08-28 13:22:51.529] Recebido REQUEST do processo 3
-[2024-08-28 13:22:52.536] Recebido RELEASE do processo 2
-[2024-08-28 13:22:52.536] Enviado GRANT ao processo 3
-[2024-08-28 13:22:52.536] Recebido REQUEST do processo 2
-[2024-08-28 13:22:53.539] Recebido RELEASE do processo 3
-[2024-08-28 13:22:53.539] Enviado GRANT ao processo 2
-[2024-08-28 13:22:53.539] Recebido REQUEST do processo 3
-[2024-08-28 13:22:54.547] Recebido RELEASE do processo 2
-[2024-08-28 13:22:54.547] Enviado GRANT ao processo 3
-[2024-08-28 13:22:55.555] Recebido RELEASE do processo 3
-[2024-08-28 13:23:31.632] Coordenador iniciado em 127.0.0.1:5000
-[2024-08-28 13:23:33.645] Processo 1 conectado.
-[2024-08-28 13:23:33.645] Recebido REQUEST do processo 1
-[2024-08-28 13:23:33.645] Enviado GRANT ao processo 1
-[2024-08-28 13:23:34.647] Recebido RELEASE do processo 1
-[2024-08-28 13:23:34.647] Recebido REQUEST do processo 1
-[2024-08-28 13:23:34.647] Enviado GRANT ao processo 1
-[2024-08-28 13:23:34.672] Processo 2 conectado.
-[2024-08-28 13:23:34.672] Recebido REQUEST do processo 2
-[2024-08-28 13:23:35.651] Recebido RELEASE do processo 1
-[2024-08-28 13:23:35.652] Enviado GRANT ao processo 2
-[2024-08-28 13:23:35.652] Recebido REQUEST do processo 1
-[2024-08-28 13:23:35.703] Processo 3 conectado.
-[2024-08-28 13:23:35.703] Recebido REQUEST do processo 3
-[2024-08-28 13:23:36.666] Recebido RELEASE do processo 2
-[2024-08-28 13:23:36.666] Enviado GRANT ao processo 1
-[2024-08-28 13:23:36.666] Recebido REQUEST do processo 2
-[2024-08-28 13:23:37.669] Recebido RELEASE do processo 1
-[2024-08-28 13:23:37.669] Enviado GRANT ao processo 3
-[2024-08-28 13:23:37.669] Recebido REQUEST do processo 1
-[2024-08-28 13:23:38.671] Recebido RELEASE do processo 3
-[2024-08-28 13:23:38.671] Enviado GRANT ao processo 2
-[2024-08-28 13:23:38.671] Recebido REQUEST do processo 3
-[2024-08-28 13:23:39.681] Recebido RELEASE do processo 2
-[2024-08-28 13:23:39.682] Enviado GRANT ao processo 1
-[2024-08-28 13:23:39.682] Recebido REQUEST do processo 2
-[2024-08-28 13:23:40.692] Recebido RELEASE do processo 1
-[2024-08-28 13:23:40.693] Enviado GRANT ao processo 3
-[2024-08-28 13:23:40.693] Recebido REQUEST do processo 1
-[2024-08-28 13:23:41.702] Recebido RELEASE do processo 3
-[2024-08-28 13:23:41.702] Enviado GRANT ao processo 2
-[2024-08-28 13:23:41.703] Recebido REQUEST do processo 3
-[2024-08-28 13:23:42.715] Recebido RELEASE do processo 2
-[2024-08-28 13:23:42.715] Enviado GRANT ao processo 1
-[2024-08-28 13:23:42.716] Recebido REQUEST do processo 2
-[2024-08-28 13:23:43.736] Recebido RELEASE do processo 1
-[2024-08-28 13:23:43.737] Enviado GRANT ao processo 3
-[2024-08-28 13:23:44.753] Recebido RELEASE do processo 3
-[2024-08-28 13:23:44.754] Enviado GRANT ao processo 2
-[2024-08-28 13:23:44.754] Recebido REQUEST do processo 3
-[2024-08-28 13:23:45.759] Recebido RELEASE do processo 2
-[2024-08-28 13:23:45.760] Enviado GRANT ao processo 3
-[2024-08-28 13:23:45.760] Recebido REQUEST do processo 2
-[2024-08-28 13:23:46.770] Recebido RELEASE do processo 3
-[2024-08-28 13:23:46.770] Enviado GRANT ao processo 2
-[2024-08-28 13:23:46.771] Recebido REQUEST do processo 3
-[2024-08-28 13:23:47.784] Recebido RELEASE do processo 2
-[2024-08-28 13:23:47.785] Enviado GRANT ao processo 3
-[2024-08-28 13:23:48.799] Recebido RELEASE do processo 3
+[2024-08-29 12:05:06.383] Coordenador iniciado em 127.0.0.1:5000
+[2024-08-29 12:05:08.412] Processo 1 conectado.
+[2024-08-29 12:05:08.412] Recebido REQUEST do processo 3
+[2024-08-29 12:05:08.412] Enviado GRANT ao processo 3
+[2024-08-29 12:05:09.414] Recebido RELEASE do processo 3
+[2024-08-29 12:05:09.414] Recebido REQUEST do processo 3
+[2024-08-29 12:05:09.414] Enviado GRANT ao processo 3
+[2024-08-29 12:05:09.434] Processo 2 conectado.
+[2024-08-29 12:05:09.434] Recebido REQUEST do processo 2
+[2024-08-29 12:05:10.415] Recebido RELEASE do processo 3
+[2024-08-29 12:05:10.415] Enviado GRANT ao processo 2
+[2024-08-29 12:05:10.418] Recebido REQUEST do processo 3
+[2024-08-29 12:05:10.456] Processo 3 conectado.
+[2024-08-29 12:05:10.456] Recebido REQUEST do processo 1
+[2024-08-29 12:05:11.424] Recebido RELEASE do processo 2
+[2024-08-29 12:05:11.424] Enviado GRANT ao processo 3
+[2024-08-29 12:05:11.425] Recebido REQUEST do processo 2
+[2024-08-29 12:05:12.436] Recebido RELEASE do processo 1
+[2024-08-29 12:05:12.437] Enviado GRANT ao processo 1
+[2024-08-29 12:05:12.437] Recebido REQUEST do processo 1
+[2024-08-29 12:05:12.437] Enviado GRANT ao processo 1
+[2024-08-29 12:05:13.445] Recebido RELEASE do processo 1
+[2024-08-29 12:05:13.445] Recebido RELEASE do processo 3
+[2024-08-29 12:05:13.445] Enviado GRANT ao processo 2
+[2024-08-29 12:05:13.445] Recebido REQUEST do processo 1
+[2024-08-29 12:05:13.445] Enviado GRANT ao processo 1
+[2024-08-29 12:05:13.446] Recebido REQUEST do processo 3
+[2024-08-29 12:05:13.446] Enviado GRANT ao processo 1
+[2024-08-29 12:05:14.453] Recebido RELEASE do processo 3
+[2024-08-29 12:05:14.454] Enviado GRANT ao processo 1
+[2024-08-29 12:05:14.454] Recebido REQUEST do processo 3
+[2024-08-29 12:05:14.454] Recebido RELEASE do processo 1
+[2024-08-29 12:05:14.454] Recebido RELEASE do processo 2
+[2024-08-29 12:05:14.455] Enviado GRANT ao processo 3
+[2024-08-29 12:05:14.455] Recebido REQUEST do processo 1
+[2024-08-29 12:05:14.456] Enviado GRANT ao processo 3
+[2024-08-29 12:05:14.456] Recebido REQUEST do processo 2
+[2024-08-29 12:05:15.456] Recebido RELEASE do processo 3
+[2024-08-29 12:05:15.456] Enviado GRANT ao processo 1
+[2024-08-29 12:05:15.456] Erro na conexão com o processo 3: [WinError 10053] Uma conexão estabelecida foi anulada pelo software no computador host
+[2024-08-29 12:05:15.465] Recebido RELEASE do processo 1
+[2024-08-29 12:05:15.465] Enviado GRANT ao processo 2
+[2024-08-29 12:05:15.465] Recebido REQUEST do processo 1
+[2024-08-29 12:05:16.474] Recebido RELEASE do processo 1
+[2024-08-29 12:05:16.474] Recebido RELEASE do processo 2
+[2024-08-29 12:05:16.475] Recebido REQUEST do processo 2
+[2024-08-29 12:05:16.475] Enviado GRANT ao processo 2
+[2024-08-29 12:05:16.475] Erro na conexão com o processo 1: [WinError 10038] Foi tentada uma operação em algum item que não é um soquete
+[2024-08-29 12:05:17.486] Recebido RELEASE do processo 2
+[2024-08-29 12:05:17.486] Recebido REQUEST do processo 2
+[2024-08-29 12:05:17.486] Enviado GRANT ao processo 2
+[2024-08-29 12:05:18.495] Recebido RELEASE do processo 2

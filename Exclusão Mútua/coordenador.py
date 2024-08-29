@@ -1,12 +1,14 @@
 import socket
 import threading
 import queue
-import time
 from datetime import datetime
 
 # Configurações do coordenador
-HOST = '127.0.0.1'  # Endereço IP do coordenador
-PORT = 5000         # Porta do coordenador
+HOST = '127.0.0.1'
+PORT = 5000
+
+# Tamanho da mensagem fixa em bytes
+F = 10
 
 # Fila de pedidos para a região crítica
 request_queue = queue.Queue()
@@ -16,6 +18,9 @@ access_count = {}
 
 # Lock para garantir acesso sincronizado à fila e contador
 lock = threading.Lock()
+
+# Dicionário para mapear process IDs aos sockets
+process_sockets = {}
 
 # Arquivo de log
 log_file = open('coordinator_log.txt', 'a')
@@ -30,55 +35,63 @@ def handle_client(client_socket, process_id):
     """Função que lida com o algoritmo de exclusão mútua para cada processo."""
     global access_count
 
-    while True:
-        try:
-            message = client_socket.recv(1024).decode()
+    try:
+        while True:
+            message = client_socket.recv(F).decode().strip()
             if not message:
                 break
 
-            if "REQUEST" in message:
+            msg_type, msg_process_id = message.split('|', 1)
+            process_id = int(msg_process_id)
+
+            if msg_type == "REQUEST":
                 log_message(f"Recebido REQUEST do processo {process_id}")
                 with lock:
                     request_queue.put(process_id)
-                
+                    
                 # Processa o pedido se for o próximo na fila
                 with lock:
                     if request_queue.queue[0] == process_id:
-                        grant_message = "GRANT"
+                        grant_message = f"GRANT|{process_id}".ljust(F)
                         client_socket.send(grant_message.encode())
                         log_message(f"Enviado GRANT ao processo {process_id}")
                         
                         # Registra o acesso
                         access_count[process_id] = access_count.get(process_id, 0) + 1
 
-            elif "RELEASE" in message:
+            elif msg_type == "RELEASE":
                 log_message(f"Recebido RELEASE do processo {process_id}")
                 with lock:
                     request_queue.get()
-                
-                # Se houver outros pedidos na fila, concede acesso ao próximo
-                with lock:
+                    
+                    # Se houver outros pedidos na fila, concede acesso ao próximo
                     if not request_queue.empty():
                         next_process = request_queue.queue[0]
                         next_socket = process_sockets[next_process]
-                        next_socket.send("GRANT".encode())
+                        grant_message = f"GRANT|{next_process}".ljust(F)
+                        next_socket.send(grant_message.encode())
                         log_message(f"Enviado GRANT ao processo {next_process}")
 
-        except ConnectionResetError:
-            print(f"Processo {process_id} desconectado.")
-            break
+    except Exception as e:
+        log_message(f"Erro na conexão com o processo {process_id}: {e}")
 
-    client_socket.close()
+    finally:
+        client_socket.close()
+        with lock:
+            process_sockets.pop(process_id, None)
 
 def accept_connections(server_socket):
     """Função para aceitar conexões dos processos."""
     while True:
-        client_socket, _ = server_socket.accept()
-        process_id = len(process_sockets) + 1  # Atribui um ID único para cada processo
-        process_sockets[process_id] = client_socket
-        print(f"Processo {process_id} conectado.")
-        log_message(f"Processo {process_id} conectado.")
-        threading.Thread(target=handle_client, args=(client_socket, process_id)).start()
+        try:
+            client_socket, _ = server_socket.accept()
+            process_id = len(process_sockets) + 1  # Atribui um ID único para cada processo
+            process_sockets[process_id] = client_socket
+            print(f"Processo {process_id} conectado.")
+            log_message(f"Processo {process_id} conectado.")
+            threading.Thread(target=handle_client, args=(client_socket, process_id)).start()
+        except Exception as e:
+            log_message(f"Erro ao aceitar conexão: {e}")
 
 def interface():
     """Função que lida com os comandos da interface."""
@@ -106,8 +119,6 @@ if __name__ == "__main__":
     server_socket.listen(5)
     print(f"Coordenador escutando em {HOST}:{PORT}")
     log_message(f"Coordenador iniciado em {HOST}:{PORT}")
-
-    process_sockets = {}
 
     # Inicia a thread para aceitar conexões dos processos
     threading.Thread(target=accept_connections, args=(server_socket,)).start()
